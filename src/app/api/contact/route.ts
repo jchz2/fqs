@@ -52,18 +52,21 @@ export async function POST(request: Request) {
 
   const { nombre, empresa, email, servicio, mensaje } = validation.data
 
+  const esc = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+
   const emailHtml = [
     '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">',
     '<div style="background:#1A2B4A;padding:24px;border-radius:8px 8px 0 0;">',
     '<h2 style="color:#ffffff;margin:0;">Nuevo mensaje desde fqs.mx</h2>',
     '</div>',
     '<div style="background:#f8f9fa;padding:24px;border-radius:0 0 8px 8px;border:1px solid #e2e8f0;">',
-    '<p><strong>Nombre:</strong> ' + nombre + '</p>',
-    '<p><strong>Empresa:</strong> ' + empresa + '</p>',
-    '<p><strong>Correo:</strong> ' + email + '</p>',
-    '<p><strong>Servicio:</strong> ' + servicio + '</p>',
+    '<p><strong>Nombre:</strong> ' + esc(nombre) + '</p>',
+    '<p><strong>Empresa:</strong> ' + esc(empresa) + '</p>',
+    '<p><strong>Correo:</strong> ' + esc(email) + '</p>',
+    '<p><strong>Servicio:</strong> ' + esc(servicio) + '</p>',
     '<p><strong>Mensaje:</strong></p>',
-    '<div style="background:#fff;padding:16px;border-radius:6px;border:1px solid #e2e8f0;">' + mensaje + '</div>',
+    '<div style="background:#fff;padding:16px;border-radius:6px;border:1px solid #e2e8f0;">' + esc(mensaje).replace(/\n/g, '<br>') + '</div>',
     '</div>',
     '</div>',
   ].join('')
